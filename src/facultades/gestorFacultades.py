@@ -1,14 +1,11 @@
 # src/facultades/gestorFacultades.py
-
 import zmq
 import socket
 import time
 import json
+import threading
 from multiprocessing import Process
-
-# Parámetros del broker
-BROKER_HOST = "25.54.14.132"
-FRONTEND_PORT = 5555  # puerto ROUTER del broker
+from src.utils.config import CONFIG
 
 
 def obtenerIPLocal():
@@ -27,26 +24,43 @@ def procesoFacultad(nombre, puerto_facultad):
         socketProgramas = context.socket(zmq.REP)
         socketProgramas.bind(f"tcp://*:{puerto_facultad}")
 
-        # Socket REQ para el servicio de descubrimiento
-        socketDescubrimiento = context.socket(zmq.REQ)
-        socketDescubrimiento.connect(f"tcp://{BROKER_HOST}:{FRONTEND_PORT}")  # Reutilizamos estas constantes
-        
-        # Solicitar DTI activo
-        socketDescubrimiento.send_json({"tipo": "descubrimiento"})
-        respuesta_descubrimiento = socketDescubrimiento.recv_json()
-        dti_activo = respuesta_descubrimiento.get("dti_activo")
-        
-        if not dti_activo:
-            print(f"La facultad {nombre} no puede obtener información de DTI activo")
-            return
-            
-        # Socket REQ para comunicarse directamente con el DTI
+        # Socket REP para recibir notificaciones del HealthCheck
+        socketNotificaciones = context.socket(zmq.REP)
+        puerto_notificaciones = puerto_facultad + 1000  # Puerto adicional para notificaciones
+        socketNotificaciones.bind(f"tcp://*:{puerto_notificaciones}")
+
+        # Conectar directamente al DTI central sin consultar al broker
         socketDTI = context.socket(zmq.REQ)
         socketDTI.setsockopt(zmq.RCVTIMEO, 30000)  # Timeout de 30 segundos
+        dti_activo = f"tcp://127.0.0.1:{CONFIG['DTI_CENTRAL_PORT']}"
         socketDTI.connect(dti_activo)
-        
+
         print(f"La facultad {nombre} está escuchando a sus programas en puerto {puerto_facultad}")
+        print(f"La facultad {nombre} está escuchando notificaciones en puerto {puerto_notificaciones}")
         print(f"La facultad {nombre} está conectada al DTI en {dti_activo}")
+
+        # Thread para recibir notificaciones de failover
+        def recibir_notificaciones():
+            while True:
+                try:
+                    msg = socketNotificaciones.recv_json()
+                    if msg.get("tipo") == "failover_notification":
+                        nuevo_dti = msg.get("nuevo_dti")
+                        if nuevo_dti and nuevo_dti != dti_activo:
+                            print(f"La facultad {nombre} recibió notificación de cambio de DTI a {nuevo_dti}")
+                            nonlocal dti_activo
+                            dti_activo = nuevo_dti
+                            # Reconectar al nuevo DTI
+                            socketDTI.close()
+                            socketDTI = context.socket(zmq.REQ)
+                            socketDTI.setsockopt(zmq.RCVTIMEO, 30000)
+                            socketDTI.connect(dti_activo)
+                        socketNotificaciones.send_json({"status": "OK"})
+                except Exception as e:
+                    print(f"Error en recepción de notificaciones: {e}")
+                    time.sleep(1)  # Evitar CPU alta en caso de error continuo
+
+        threading.Thread(target=recibir_notificaciones, daemon=True).start()
 
         while True:
             # Recibimos la solicitud del programa académico
@@ -79,22 +93,7 @@ def procesoFacultad(nombre, puerto_facultad):
             except zmq.Again:
                 print(f"⏱️ La facultad {nombre} no recibió respuesta del DTI (timeout).")
                 respuestaDTI = {"status": "Error", "razon": "Timeout esperando DTI"}
-                
-                # Intentar reconectar con el servicio de descubrimiento para obtener un nuevo DTI
-                try:
-                    socketDescubrimiento.send_json({"tipo": "descubrimiento"})
-                    respuesta_descubrimiento = socketDescubrimiento.recv_json()
-                    nuevo_dti = respuesta_descubrimiento.get("dti_activo")
-                    
-                    if nuevo_dti and nuevo_dti != dti_activo:
-                        dti_activo = nuevo_dti
-                        socketDTI.close()
-                        socketDTI = context.socket(zmq.REQ)
-                        socketDTI.setsockopt(zmq.RCVTIMEO, 30000)
-                        socketDTI.connect(dti_activo)
-                        print(f"La facultad {nombre} reconectó con DTI en {dti_activo}")
-                except Exception as e:
-                    print(f"Error al reconectar: {e}")
+                # Si hay timeout, esperar notificación del HealthCheck
 
             # Enviar respuesta al programa
             socketProgramas.send_json(respuestaDTI)
@@ -105,8 +104,10 @@ def procesoFacultad(nombre, puerto_facultad):
         print(f"La facultad {nombre} presenta un error inesperado: {e}")
     finally:
         socketProgramas.close()
-        socketDTI.close()
-        socketDescubrimiento.close()
+        if socketDTI:
+            socketDTI.close()
+        if socketNotificaciones:
+            socketNotificaciones.close()
         context.term()
 
 

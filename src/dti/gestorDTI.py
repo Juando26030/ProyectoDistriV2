@@ -59,18 +59,13 @@ class GestorDTI:
             self.guardar_estado()
 
     def enviar_estado_healthcheck(self):
-        """
-        Envía mensajes al HealthCheck:
-        - Estado inicial `ready`.
-        - Mensajes periódicos `heartbeat` cada 5 segundos.
-        """
+        """Envía mensajes al HealthCheck directamente"""
         health_socket = self.context.socket(zmq.PUSH)
         endpoint_health = f"tcp://{self.broker_host}:{self.health_port}"
         health_socket.connect(endpoint_health)
 
         # Enviar mensaje 'ready'
         msg_ready = {'worker_id': f'DTI-{self.id}', 'status': 'ready'}
-        print(f"[DTI-{self.id}] Enviando estado 'ready' al HealthCheck: {msg_ready}")
         health_socket.send_json(msg_ready)
 
         # Iniciar envío periódico de 'heartbeat'
@@ -78,7 +73,6 @@ class GestorDTI:
             while True:
                 time.sleep(5)
                 msg_heartbeat = {'worker_id': f'DTI-{self.id}', 'status': 'heartbeat'}
-                print(f"[DTI-{self.id}] Enviando heartbeat al HealthCheck: {msg_heartbeat}")
                 health_socket.send_json(msg_heartbeat)
 
         threading.Thread(target=heartbeat, daemon=True).start()
