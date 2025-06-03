@@ -23,6 +23,9 @@ def cargar_recursos(path):
     if not os.path.exists(path):
         return {"aulas": 599, "laboratorios": 499}
     with open(path, 'r') as f:
+        contenido = f.read().strip()
+        if not contenido:  # Si el archivo está vacío
+            return {"aulas": 599, "laboratorios": 499}
         return json.load(f)
 
 def guardar_recursos(path, recursos):

@@ -7,7 +7,7 @@ import json
 from multiprocessing import Process
 
 # Parámetros del broker
-BROKER_HOST = "127.0.0.1"
+BROKER_HOST = "25.54.14.132"
 FRONTEND_PORT = 5555  # puerto ROUTER del broker
 
 
