@@ -15,9 +15,11 @@ def cargar_registro(ruta):
             return {}
     return {}
 
+
 def guardar_registro(filename, data):
     with open(filename, 'w') as f:
         json.dump(data, f, indent=4)
+
 
 def cargar_recursos(path):
     if not os.path.exists(path):
@@ -26,7 +28,12 @@ def cargar_recursos(path):
         contenido = f.read().strip()
         if not contenido:  # Si el archivo está vacío
             return {"aulas": 599, "laboratorios": 499}
-        return json.load(f)
+        try:
+            return json.load(f)
+        except json.JSONDecodeError:
+            print(f"Error al decodificar JSON en {path}, usando valores predeterminados")
+            return {"aulas": 599, "laboratorios": 499}
+
 
 def guardar_recursos(path, recursos):
     os.makedirs(os.path.dirname(path), exist_ok=True)

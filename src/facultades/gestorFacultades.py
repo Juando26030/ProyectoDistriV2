@@ -18,6 +18,9 @@ def obtenerIPLocal():
 
 def procesoFacultad(nombre, puerto_facultad):
     context = zmq.Context()
+    socketProgramas = None
+    socketNotificaciones = None
+    socketDTI = None
 
     try:
         # Socket REP para recibir solicitudes de programas
@@ -26,7 +29,7 @@ def procesoFacultad(nombre, puerto_facultad):
 
         # Socket REP para recibir notificaciones del HealthCheck
         socketNotificaciones = context.socket(zmq.REP)
-        puerto_notificaciones = puerto_facultad + 1000  # Puerto adicional para notificaciones
+        puerto_notificaciones = puerto_facultad + 20000  # Puerto adicional para notificaciones
         socketNotificaciones.bind(f"tcp://*:{puerto_notificaciones}")
 
         # Conectar directamente al DTI central sin consultar al broker
@@ -39,8 +42,9 @@ def procesoFacultad(nombre, puerto_facultad):
         print(f"La facultad {nombre} está escuchando notificaciones en puerto {puerto_notificaciones}")
         print(f"La facultad {nombre} está conectada al DTI en {dti_activo}")
 
-        # Thread para recibir notificaciones de failover
+        # En la función recibir_notificaciones() de procesoFacultad()
         def recibir_notificaciones():
+            nonlocal dti_activo  # ¡DEBE IR AL PRINCIPIO DE LA FUNCIÓN!
             while True:
                 try:
                     msg = socketNotificaciones.recv_json()
@@ -48,7 +52,6 @@ def procesoFacultad(nombre, puerto_facultad):
                         nuevo_dti = msg.get("nuevo_dti")
                         if nuevo_dti and nuevo_dti != dti_activo:
                             print(f"La facultad {nombre} recibió notificación de cambio de DTI a {nuevo_dti}")
-                            nonlocal dti_activo
                             dti_activo = nuevo_dti
                             # Reconectar al nuevo DTI
                             socketDTI.close()
@@ -58,7 +61,7 @@ def procesoFacultad(nombre, puerto_facultad):
                         socketNotificaciones.send_json({"status": "OK"})
                 except Exception as e:
                     print(f"Error en recepción de notificaciones: {e}")
-                    time.sleep(1)  # Evitar CPU alta en caso de error continuo
+                    time.sleep(1)
 
         threading.Thread(target=recibir_notificaciones, daemon=True).start()
 

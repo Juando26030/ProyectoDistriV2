@@ -34,6 +34,10 @@ class HealthMonitor:
         # Puertos para notificaciones de failover
         self.notificacion_ports = {nombre: puerto + 1000 for nombre, puerto in self.facultades_ports.items()}
 
+    def obtenerIPFacultad(self, facultad):
+        # Para pruebas locales, todas las facultades están en localhost
+        return "127.0.0.1"
+
     def stop(self):
         print("[HealthCheck] Deteniendo monitoreo...")
         self.running = False
@@ -46,7 +50,9 @@ class HealthMonitor:
         for facultad, puerto in self.notificacion_ports.items():
             notif_socket = self.context.socket(zmq.REQ)
             try:
-                endpoint = f"tcp://127.0.0.1:{puerto}"
+                # Cambiar 127.0.0.1 por la IP real del nodo donde está la facultad
+                ip_facultad = self.obtenerIPFacultad(facultad)
+                endpoint = f"tcp://{ip_facultad}:{puerto}"
                 notif_socket.connect(endpoint)
                 notif_socket.send_json({
                     "tipo": "failover_notification",

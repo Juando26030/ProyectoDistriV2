@@ -1,0 +1,218 @@
+{
+    "Ciencias Sociales": [
+        {
+            "programa": "Psicologia",
+            "aulas": 5,
+            "laboratorios": 3
+        },
+        {
+            "programa": "Sociologia",
+            "aulas": 7,
+            "laboratorios": 3
+        },
+        {
+            "programa": "Trabajo Social",
+            "aulas": 5,
+            "laboratorios": 2
+        },
+        {
+            "programa": "Antropologia",
+            "aulas": 5,
+            "laboratorios": 2
+        },
+        {
+            "programa": "Comunicacion",
+            "aulas": 3,
+            "laboratorios": 4
+        }
+    ],
+    "Ciencias Naturales": [
+        {
+            "programa": "Biologia",
+            "aulas": 6,
+            "laboratorios": 3
+        },
+        {
+            "programa": "Quimica",
+            "aulas": 7,
+            "laboratorios": 2
+        },
+        {
+            "programa": "Fisica",
+            "aulas": 7,
+            "laboratorios": 2
+        },
+        {
+            "programa": "Geologia",
+            "aulas": 3,
+            "laboratorios": 4
+        },
+        {
+            "programa": "Ciencias Ambientales",
+            "aulas": 4,
+            "laboratorios": 3
+        }
+    ],
+    "Ingenieria": [
+        {
+            "programa": "Ingenieria Civil",
+            "aulas": 6,
+            "laboratorios": 4
+        },
+        {
+            "programa": "Ingenieria Electronica",
+            "aulas": 5,
+            "laboratorios": 3
+        },
+        {
+            "programa": "Ingenieria de Sistemas",
+            "aulas": 6,
+            "laboratorios": 2
+        },
+        {
+            "programa": "Ingenieria Mecanica",
+            "aulas": 3,
+            "laboratorios": 4
+        },
+        {
+            "programa": "Ingenieria Industrial",
+            "aulas": 4,
+            "laboratorios": 3
+        }
+    ],
+    "Derecho": [
+        {
+            "programa": "Derecho Penal",
+            "aulas": 3,
+            "laboratorios": 4
+        },
+        {
+            "programa": "Derecho Civil",
+            "aulas": 8,
+            "laboratorios": 2
+        },
+        {
+            "programa": "Derecho Internacional",
+            "aulas": 4,
+            "laboratorios": 4
+        },
+        {
+            "programa": "Derecho Laboral",
+            "aulas": 8,
+            "laboratorios": 2
+        },
+        {
+            "programa": "Derecho Constitucional",
+            "aulas": 8,
+            "laboratorios": 2
+        }
+    ],
+    "Educacion": [
+        {
+            "programa": "Educacion Primaria",
+            "aulas": 4,
+            "laboratorios": 4
+        },
+        {
+            "programa": "Educacion Secundaria",
+            "aulas": 8,
+            "laboratorios": 2
+        },
+        {
+            "programa": "Educacion Especial",
+            "aulas": 5,
+            "laboratorios": 3
+        },
+        {
+            "programa": "Psicopedagogia",
+            "aulas": 4,
+            "laboratorios": 3
+        },
+        {
+            "programa": "Administracion Educativa",
+            "aulas": 4,
+            "laboratorios": 3
+        }
+    ],
+    "Ciencias Economicas": [
+        {
+            "programa": "Administracion de Empresas",
+            "aulas": 7,
+            "laboratorios": 2
+        },
+        {
+            "programa": "Contabilidad",
+            "aulas": 3,
+            "laboratorios": 4
+        },
+        {
+            "programa": "Economia",
+            "aulas": 7,
+            "laboratorios": 2
+        },
+        {
+            "programa": "Mercadotecnia",
+            "aulas": 7,
+            "laboratorios": 2
+        },
+        {
+            "programa": "Finanzas",
+            "aulas": 5,
+            "laboratorios": 2
+        }
+    ],
+    "Arquitectura": [
+        {
+            "programa": "Arquitectura",
+            "aulas": 5,
+            "laboratorios": 4
+        },
+        {
+            "programa": "Urbanismo",
+            "aulas": 4,
+            "laboratorios": 4
+        },
+        {
+            "programa": "Dise\u00f1o de Interiores",
+            "aulas": 7,
+            "laboratorios": 3
+        },
+        {
+            "programa": "Paisajismo",
+            "aulas": 7,
+            "laboratorios": 2
+        },
+        {
+            "programa": "Restauracion de Patrimonio",
+            "aulas": 7,
+            "laboratorios": 2
+        }
+    ],
+    "Tecnologia": [
+        {
+            "programa": "Desarrollo de Software",
+            "aulas": 6,
+            "laboratorios": 4
+        },
+        {
+            "programa": "Redes y Telecomunicaciones",
+            "aulas": 6,
+            "laboratorios": 4
+        },
+        {
+            "programa": "Ciberseguridad",
+            "aulas": 5,
+            "laboratorios": 3
+        },
+        {
+            "programa": "Inteligencia Artificial",
+            "aulas": 4,
+            "laboratorios": 3
+        },
+        {
+            "programa": "Big Data",
+            "aulas": 4,
+            "laboratorios": 3
+        }
+    ]
+}
