@@ -60,19 +60,21 @@ class HealthMonitor:
                                 self.dti_activo = worker_id
                                 self.last_heartbeat_time = time.time()
                                 print(f"[HealthCheck] ✅ DTI activo establecido: {worker_id}")
-                                self._notify_broker(msg)
+                                self._notify_dti_change(msg)  # Corregido aquí
                             elif worker_id == self.dti_activo:
                                 self.last_heartbeat_time = time.time()
                                 print(f"[HealthCheck] 🔄 Ready del DTI actual ({worker_id}) recibido.")
                             else:
-                                print(f"[HealthCheck] ℹ️ {worker_id} está listo pero se ignora. DTI activo: {self.dti_activo}")
+                                print(
+                                    f"[HealthCheck] ℹ️ {worker_id} está listo pero se ignora. DTI activo: {self.dti_activo}")
 
                         elif status == "heartbeat":
                             if worker_id == self.dti_activo:
                                 self.last_heartbeat_time = time.time()
                                 print(f"[HealthCheck] 🔄 Heartbeat del DTI activo: {worker_id}")
                             else:
-                                print(f"[HealthCheck] ℹ️ Heartbeat de {worker_id} ignorado (DTI activo: {self.dti_activo})")
+                                print(
+                                    f"[HealthCheck] ℹ️ Heartbeat de {worker_id} ignorado (DTI activo: {self.dti_activo})")
 
                         else:
                             print(f"[HealthCheck] ❓ Mensaje desconocido: {msg}")
@@ -89,7 +91,7 @@ class HealthMonitor:
                                     "tipo": "cambio_dti",
                                     "nuevo_dti": nuevo_dti
                                 }
-                                self._notify_broker(failover_msg)
+                                self._notify_dti_change(failover_msg)  # Corregido aquí
                                 self.dti_activo = f"REPLICA-{nuevo_puerto}"
                                 self.last_heartbeat_time = time.time()
                                 print(f"[HealthCheck] ✅ Failover a réplica en puerto {nuevo_puerto}")

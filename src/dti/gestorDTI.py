@@ -234,4 +234,30 @@ def iniciar_dti_pool(broker_host='127.0.0.1'):
 
 
 if __name__ == '__main__':
-    iniciar_dti_pool()
+    import sys
+
+    # Valores por defecto
+    id_instancia = 0  # DTI central por defecto
+    es_central = True
+    broker_host = '127.0.0.1'
+
+    # Permitir configuración mediante argumentos
+    if len(sys.argv) > 1:
+        try:
+            id_instancia = int(sys.argv[1])
+            es_central = (id_instancia == 0)
+            if len(sys.argv) > 2:
+                broker_host = sys.argv[2]
+        except ValueError:
+            print("Error: El ID de instancia debe ser un número entero")
+            sys.exit(1)
+
+    print(f"Iniciando DTI con ID={id_instancia}, Central={es_central}, Broker={broker_host}")
+
+    # Iniciar una sola instancia de DTI
+    gestor = GestorDTI(
+        id_instancia=id_instancia,
+        broker_host=broker_host,
+        es_central=es_central
+    )
+    gestor.iniciar()
