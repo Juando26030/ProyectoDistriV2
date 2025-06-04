@@ -1,0 +1,138 @@
+{
+    "timestamp": "2025-06-04T21:14:53.858094",
+    "metricasPorFacultad": {
+        "Ciencias Naturales": {
+            "tiemposRespuestaDTI": {
+                "promedio": 0.0015150547027587891,
+                "minimo": 0.0010755062103271484,
+                "maximo": 0.0018596649169921875,
+                "totalRegistros": 5
+            },
+            "tiemposAtencionProgramas": {
+                "promedio": 0.002540922164916992,
+                "totalRegistros": 5
+            },
+            "solicitudes": {
+                "aceptadas": 5,
+                "rechazadas": 0,
+                "timeouts": 0,
+                "errores": 0,
+                "total": 5
+            }
+        },
+        "Tecnologia": {
+            "tiemposRespuestaDTI": {
+                "promedio": 0.00265045960744222,
+                "minimo": 0.0007290840148925781,
+                "maximo": 0.00549769401550293,
+                "totalRegistros": 6
+            },
+            "tiemposAtencionProgramas": {
+                "promedio": 0.003280003865559896,
+                "totalRegistros": 6
+            },
+            "solicitudes": {
+                "aceptadas": 5,
+                "rechazadas": 1,
+                "timeouts": 0,
+                "errores": 0,
+                "total": 6
+            }
+        },
+        "Educacion": {
+            "tiemposRespuestaDTI": {
+                "promedio": 0.002182483673095703,
+                "minimo": 0.0008130073547363281,
+                "maximo": 0.005860805511474609,
+                "totalRegistros": 6
+            },
+            "tiemposAtencionProgramas": {
+                "promedio": 0.003064831097920736,
+                "totalRegistros": 6
+            },
+            "solicitudes": {
+                "aceptadas": 5,
+                "rechazadas": 1,
+                "timeouts": 0,
+                "errores": 0,
+                "total": 6
+            }
+        },
+        "Artes": {
+            "tiemposRespuestaDTI": {
+                "promedio": 0.0010080337524414062,
+                "minimo": 0.0010080337524414062,
+                "maximo": 0.0010080337524414062,
+                "totalRegistros": 1
+            },
+            "tiemposAtencionProgramas": {
+                "promedio": 0.0010080337524414062,
+                "totalRegistros": 1
+            },
+            "solicitudes": {
+                "aceptadas": 0,
+                "rechazadas": 1,
+                "timeouts": 0,
+                "errores": 0,
+                "total": 1
+            }
+        },
+        "Ciencias Economicas": {
+            "tiemposRespuestaDTI": {
+                "promedio": 0.002501209576924642,
+                "minimo": 0.0005972385406494141,
+                "maximo": 0.0049784183502197266,
+                "totalRegistros": 6
+            },
+            "tiemposAtencionProgramas": {
+                "promedio": 0.0038962761561075845,
+                "totalRegistros": 6
+            },
+            "solicitudes": {
+                "aceptadas": 5,
+                "rechazadas": 1,
+                "timeouts": 0,
+                "errores": 0,
+                "total": 6
+            }
+        },
+        "Arquitectura": {
+            "tiemposRespuestaDTI": {
+                "promedio": 0.0018523931503295898,
+                "minimo": 0.0006673336029052734,
+                "maximo": 0.004227399826049805,
+                "totalRegistros": 6
+            },
+            "tiemposAtencionProgramas": {
+                "promedio": 0.002687215805053711,
+                "totalRegistros": 6
+            },
+            "solicitudes": {
+                "aceptadas": 5,
+                "rechazadas": 1,
+                "timeouts": 0,
+                "errores": 0,
+                "total": 6
+            }
+        }
+    },
+    "metricasGlobales": {
+        "tiemposRespuestaDTI": {
+            "promedio": 0.002123419443766276,
+            "minimo": 0.0005972385406494141,
+            "maximo": 0.005860805511474609,
+            "totalRegistros": 30
+        },
+        "tiemposAtencionProgramas": {
+            "promedio": 0.003042753537495931,
+            "totalRegistros": 30
+        },
+        "solicitudes": {
+            "aceptadas": 25,
+            "rechazadas": 5,
+            "timeouts": 0,
+            "errores": 0,
+            "total": 30
+        }
+    }
+}
